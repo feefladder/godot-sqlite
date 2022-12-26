@@ -5,7 +5,7 @@ var db
 
 const verbosity_level : int = 2
 
-var db_name := "res://data/test"
+var db_name := "res://my_database.db"
 
 var table_name := "company"
 
@@ -20,9 +20,10 @@ signal texture_received(texture)
 
 func _ready():
 	if OS.get_name() in ["Android", "iOS", "HTML5"]:
-		db_name = "user://my_database"
+		db_name = "user://my_database.db"
 
 	# Enable/disable examples here:
+	example_of_database_persistency()
 	example_of_database_persistency()
 
 func cprint(text : String) -> void:
@@ -44,6 +45,7 @@ func example_of_database_persistency():
 	db.verbosity_level = verbosity_level
 	# Open the database using the db_name found in the path variable
 	db.open_db()
+
 	# Create a table with the structure found in table_dict and add it to the database
 	db.create_table(table_name, table_dict)
 
@@ -56,10 +58,11 @@ func example_of_database_persistency():
 	else:
 		var result : Dictionary = query_result[0]
 		count = int(result.get("count", count))
-		# Increment the value for the next time!
-		db.update_rows(table_name, "id = 1", {"count": count + 1 })
 
 	cprint("Count is: {0}".format([count]))
+
+	# Increment the value for the next time!
+	db.update_rows(table_name, "id = 1", {"count": count + 1 })
 
 	# Close the current database
 	db.close_db()
