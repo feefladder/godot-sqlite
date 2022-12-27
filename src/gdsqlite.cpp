@@ -176,6 +176,18 @@ void SQLite::close_db()
         else
         {
             db = nullptr;
+#ifdef __EMSCRIPTEN__
+            /* In the case of the web build, we'll have to manually force an update of the file system (IndexedDB) */
+            /* The method used here is dangerous as the GodotFS object *might* not be exposed on official builds due to the closure compiler renaming/minimizing the property */
+            Ref<JavaScriptObject> engine = JavaScript::get_singleton()->get_interface("engine");
+            Ref<JavaScriptObject> rtenv = engine->get("rtenv");
+            Ref<JavaScriptObject> GodotFS = rtenv->get("GodotFS");
+            if (!GodotFS->get("_syncing"))
+            {
+                GODOT_LOG(0, "Manually forcing GodotFS to sync!");
+                GodotFS->call("sync");
+            }
+#endif
             if (verbosity_level > VerbosityLevel::QUIET)
             {
                 GODOT_LOG(0, "Closed database (" + path + ")")

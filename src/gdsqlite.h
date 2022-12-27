@@ -9,6 +9,10 @@
 #include <Directory.hpp>
 #include <JSON.hpp>
 #include <JSONParseResult.hpp>
+#ifdef __EMSCRIPTEN__
+#include <JavaScript.hpp>
+#include <JavaScriptObject.hpp>
+#endif
 
 #include <fstream>
 #include <vector>
