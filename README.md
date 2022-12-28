@@ -266,6 +266,23 @@ There are a couple of things you can do before panicking, namely:
     db.query_with_bindings("UPDATE "+ table_name +" SET "+ column_name +"=? WHERE id=?;", [100, 1])
     ```
 
+- Similarly to the above, you also cannot reference column names in an update statement. The following will just set `level` to `level+1` in stead of incrementing it by one.
+
+
+  ```gsdcript
+  var table_name := "characters"
+  var column_name := "level"
+  db.update_rows(table_name, "1=1", {column_name: column_name + "+1"})
+  ```
+  
+  In stead, perform a direct query:
+  
+  ```gdscript
+  var table_name := "characters"
+  var column_name := "level"
+  db.query("UPDATE "+ table_name +" SET "+ column_name +"="+ column_name +"+1")
+  ```
+
 After exhausting these options, please open an issue that describes the error in proper detail.
 
 ### 2. Your plugin fails to load on my Windows machine!
