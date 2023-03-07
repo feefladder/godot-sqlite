@@ -1,0 +1,24 @@
+{
+    "targets": [
+        "release"
+    ],
+    "jobs": [
+        {
+            "name": "Windows (x86_64, MSVC)",
+            "os": "windows-latest",
+            "platform": "windows",
+            "artifact-extension": "dll",
+            "artifact-name": "win64",
+            "artifact-folder": "win64/",
+            "additional-python-packages": "pywin32"
+        },
+        {
+            "name": "Ubuntu (GCC)",
+            "os": "ubuntu-20.04",
+            "platform": "linux",
+            "artifact-name": "x11",
+            "artifact-folder": "x11/",
+            "artifact-extension": "so"
+        }
+    ]
+}
